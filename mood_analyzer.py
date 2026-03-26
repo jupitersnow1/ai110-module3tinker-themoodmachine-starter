@@ -46,14 +46,16 @@ class MoodAnalyzer:
           - Strips leading and trailing whitespace
           - Converts everything to lowercase
           - Splits on spaces
-
+        """
+        cleaned = text.strip().lower()
+        tokens = cleaned.split()
+        """
         Ideas to improve:
           - Remove punctuation
           - Handle simple emojis separately (":)", ":-(", "🥲", "😂")
           - Normalize repeated characters ("soooo" -> "soo")
         """
-        cleaned = text.strip().lower()
-        tokens = cleaned.split()
+    
 
         return tokens
 
