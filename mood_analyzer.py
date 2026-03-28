@@ -134,17 +134,21 @@ class MoodAnalyzer:
         #   1. Call self.score_text(text) to get the numeric score.
         score = self.score_text(text)
 
+        pos_hits = sum(1 for t in self.preprocess(text) if t in self.positive_words)
+        neg_hits = sum(1 for t in self.preprocess(text) if t in self.negative_words)
+
+        if pos_hits>0 and neg_hits > 0:
+            return "mixed"
+
         #   2. Return "positive" if the score is above 0.
-        if score >= 1:
+        if score > 0:
             return "positive"
         
         #   3. Return "negative" if the score is below 0.
-        elif score <= -1:
+        elif score < 0:
             return "negative"
         
         #   4. Return "neutral" otherwise.
-        # elif score == 0:
-        
         else: 
             return "neutral"
             # return "mixed"

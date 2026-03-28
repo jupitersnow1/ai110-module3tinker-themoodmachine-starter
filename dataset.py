@@ -23,6 +23,12 @@ POSITIVE_WORDS = [
     "chill",
     "relaxed",
     "amazing",
+    # From sample posts
+    "hopeful",
+    "proud",
+    "win",
+    "cozy",
+    "yes",
     # Positive emojis
     "😂", "😊", "❤️", "🥰", "😍", "🎉", "✨", "😅", "EMOJI_HAPPY", "EMOJI_LAUGH",
 ]
@@ -38,6 +44,10 @@ NEGATIVE_WORDS = [
     "stressed",
     "hate",
     "boring",
+    # From sample posts
+    "embarrassed",
+    "traffic",
+    "overwhelmed",
     # Negative emojis
     "💀", "😤", "😭", "😞", "🙃", "EMOJI_SAD",
 ]
