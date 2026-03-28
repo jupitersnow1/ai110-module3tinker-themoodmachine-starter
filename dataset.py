@@ -23,6 +23,8 @@ POSITIVE_WORDS = [
     "chill",
     "relaxed",
     "amazing",
+    # Positive emojis
+    "😂", "😊", "❤️", "🥰", "😍", "🎉", "✨", "😅", "EMOJI_HAPPY", "EMOJI_LAUGH",
 ]
 
 NEGATIVE_WORDS = [
@@ -36,6 +38,8 @@ NEGATIVE_WORDS = [
     "stressed",
     "hate",
     "boring",
+    # Negative emojis
+    "💀", "😤", "😭", "😞", "🙃", "EMOJI_SAD",
 ]
 
 # ---------------------------------------------------------------------

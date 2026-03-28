@@ -9,6 +9,7 @@ This class starts with very simple logic:
   - Convert that score into a mood label
 """
 
+import re
 from typing import List, Dict, Tuple, Optional
 
 from dataset import POSITIVE_WORDS, NEGATIVE_WORDS
@@ -36,28 +37,36 @@ class MoodAnalyzer:
     # Preprocessing
     # ---------------------------------------------------------------------
 
+    _ASCII_EMOTICONS = {
+        ":)": "EMOJI_HAPPY", ":-)": "EMOJI_HAPPY",
+        ":(": "EMOJI_SAD",   ":-(": "EMOJI_SAD",
+        ":d": "EMOJI_LAUGH", ":-d": "EMOJI_LAUGH",
+    }
+
+    _TOKEN_PATTERN = re.compile(
+        r':-[)(d]|:[)(d]'            # ASCII emoticons (matched after lowercasing)
+        r'|[\U00010000-\U0010ffff]'   # Unicode emojis, passed through as-is
+        r'|[a-z0-9]+'                 # words and numbers
+    )
+
     def preprocess(self, text: str) -> List[str]:
         """
         Convert raw text into a list of tokens the model can work with.
 
-        TODO: Improve this method.
-
-        Right now, it does the minimum:
-          - Strips leading and trailing whitespace
-          - Converts everything to lowercase
-          - Splits on spaces
+        - Strips leading and trailing whitespace
+        - Converts everything to lowercase
+        - Handles ASCII emoticons (mapped to labels) and Unicode emojis (passed through)
+        - Removes punctuation implicitly via tokenization
+        - Normalizes repeated characters ("soooo" -> "soo")
         """
-        cleaned = text.strip().lower()
-        tokens = cleaned.split()
-        """
-        Ideas to improve:
-          - Remove punctuation
-          - Handle simple emojis separately (":)", ":-(", "🥲", "😂")
-          - Normalize repeated characters ("soooo" -> "soo")
-        """
-    
-
+        tokens = []
+        for match in self._TOKEN_PATTERN.findall(text.strip().lower()):
+            if match in self._ASCII_EMOTICONS:
+                tokens.append(self._ASCII_EMOTICONS[match])
+            else:
+                tokens.append(re.sub(r'(.)\1{2,}', r'\1\1', match))
         return tokens
+
 
     # ---------------------------------------------------------------------
     # Scoring logic
@@ -79,13 +88,27 @@ class MoodAnalyzer:
         """
         # TODO: Implement this method.
         #   1. Call self.preprocess(text) to get tokens.
-        #   2. Loop over the tokens.
-        #   3. Increase the score for positive words, decrease for negative words.
-        #   4. Return the total score.
-        #
+        tokens = self.preprocess(text)
+        score = 0 # * start at 0
+
         # Hint: if you implement negation, you may want to look at pairs of tokens,
         # like ("not", "happy") or ("never", "fun").
-        pass
+        negations = ("not", "never", "no", "don't", "doesn't", "didn't", "isn't", "wasn't")
+
+        #   2. Loop over the tokens.
+        for i, token in enumerate(tokens):
+            is_negated = i>0 and tokens[i-1] in negations
+            
+        #   3. Increase the score for positive words, decrease for negative words.
+            if token in self.positive_words:
+                score += -1 if is_negated else 1 # * if Positive signal -> add point (add -1 if its a negation)
+
+            elif token in self.negative_words:
+                score += 1 if is_negated else -1. # * elif Negative signal -> subtract points
+
+        #   4. Return the total score.
+        return score
+
 
     # ---------------------------------------------------------------------
     # Label prediction
@@ -109,10 +132,22 @@ class MoodAnalyzer:
         """
         # TODO: Implement this method.
         #   1. Call self.score_text(text) to get the numeric score.
+        score = self.score_text(text)
+
         #   2. Return "positive" if the score is above 0.
+        if score >= 1:
+            return "positive"
+        
         #   3. Return "negative" if the score is below 0.
+        elif score <= -1:
+            return "negative"
+        
         #   4. Return "neutral" otherwise.
-        pass
+        # elif score == 0:
+        
+        else: 
+            return "neutral"
+            # return "mixed"
 
     # ---------------------------------------------------------------------
     # Explanations (optional but recommended)
@@ -153,3 +188,15 @@ class MoodAnalyzer:
             f"(positive: {positive_hits or '[]'}, "
             f"negative: {negative_hits or '[]'})"
         )
+
+# if __name__ == "__main__":
+
+    # (1) testing out `preprocess()` function
+    # from dataset import SAMPLE_POSTS
+    # analyzer = MoodAnalyzer()
+    # for post in SAMPLE_POSTS:
+    #     tokens = analyzer.preprocess(post)
+    #     print(f"Input : {post}")
+    #     print(f"Tokens: {tokens}")
+    #     print()
+
