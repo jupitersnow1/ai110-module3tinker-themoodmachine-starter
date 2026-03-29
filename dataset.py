@@ -29,8 +29,12 @@ POSITIVE_WORDS = [
     "win",
     "cozy",
     "yes",
+    "best"
     # Positive emojis
     "😂", "😊", "❤️", "🥰", "😍", "🎉", "✨", "😅", "EMOJI_HAPPY", "EMOJI_LAUGH",
+
+    # from "breaker" sentences
+    "fire"
 ]
 
 NEGATIVE_WORDS = [
@@ -50,6 +54,12 @@ NEGATIVE_WORDS = [
     "overwhelmed",
     # Negative emojis
     "💀", "😤", "😭", "😞", "🙃", "EMOJI_SAD",
+
+    # from "breaker" sentences
+    "stuck",
+    "exhausted",
+    "dying", 
+    "cap"
 ]
 
 # ---------------------------------------------------------------------
@@ -69,6 +79,15 @@ SAMPLE_POSTS = [
     "it's giving cozy vibes but also I have so much to do rn 💀",
     "ngl I'm proud of myself but also kinda embarrassed it took this long",
     "woke up and chose chaos I guess 🤷",
+
+    # set of "breaker" sentences designed to confuse model
+    "I love getting stuck in traffic",           # sarcasm
+    "This coffee place is sick!",                # slang: sick = cool
+    "Oh great, another Monday, just what I needed 🙃",  # sarcasm + emoji
+    "that concert was absolutely wicked no cap", # slang: wicked = amazing
+    "im fine 🙂",                               # emoji implies masked feeling
+    "I'm exhausted but so proud of what I built today",  # mixed emotions
+    "this beat is fire but my wifi keeps dying 😤",      # slang + mixed
 ]
 
 # Human labels for each post above.
@@ -89,6 +108,15 @@ TRUE_LABELS = [
     "mixed",     # "it's giving cozy vibes but also I have so much to do rn 💀"
     "mixed",     # "ngl I'm proud of myself but also kinda embarrassed..."
     "neutral",   # "woke up and chose chaos I guess 🤷"
+
+    # breaker labels
+    "negative",  # "I love getting stuck in traffic" (sarcasm)
+    "positive",  # "This coffee place is sick!" (sick = cool)
+    "negative",  # "Oh great, another Monday..." (sarcasm + 🙃)
+    "positive",  # "that concert was absolutely wicked no cap" (wicked = amazing)
+    "negative",  # "im fine 🙂" (emoji implies masked/passive feeling)
+    "mixed",     # "I'm exhausted but so proud of what I built today"
+    "mixed",     # "this beat is fire but my wifi keeps dying 😤"
 ]
 
 # TODO: Add 5-10 more posts and labels.
