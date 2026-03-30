@@ -88,6 +88,7 @@ SAMPLE_POSTS = [
     "im fine 🙂",                               # emoji implies masked feeling
     "I'm exhausted but so proud of what I built today",  # mixed emotions
     "this beat is fire but my wifi keeps dying 😤",      # slang + mixed
+
 ]
 
 # Human labels for each post above.

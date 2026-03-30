@@ -15,3 +15,17 @@ After introducing the “breaker” sentences, the accuracy initially dropped to
 These breaker cases were intentionally designed to challenge the model and included things like sarcasm, slang with multiple meanings (e.g. “sick”, “wicked”, “fire”), emojis, and mixed emotions (e.g. “I’m exhausted but proud of myself”).
 
 This showed that while the rule-based approach works well for more straightforward inputs, it struggles with more nuanced or context-heavy language.
+
+![alt text](image-1.png)
+
+## Running ml_experiments
+
+When I ran the ML version, it achieved 1.00 accuracy on the dataset, compared to 0.72 from the rule-based model. This is likely because it was trained and tested on the same labeled examples, allowing it to closely learn those patterns.
+
+The ML model handled several tricky “breaker” cases better. It correctly classified sarcasm like “I love getting stuck in traffic” as negative, understood slang like “sick” as positive, and handled subtle cases like “im fine 🙂” more accurately than the rule-based model.
+
+However, it still struggled with less common slang. For example, “Let’s get this bread” was classified as negative, even though it’s typically positive, suggesting limited exposure in the training data.
+
+Overall, the models fail in different ways, the rule-based model struggles with context (sarcasm, slang, emojis), while the ML model handles those better but may not generalize well to unseen language.
+
+![alt text](image.png)
